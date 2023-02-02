@@ -9,17 +9,20 @@ import { HashService } from './hash.service';
 export class UserService {
  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, private hashService: HashService) { }
 
- async getUserByName(name: string) {
-  return this.userModel.findOne({name}).exec();
+ async getUserByName(username: string) {
+  return this.userModel.findOne({username: username}).exec();
  }
 
  async registerUser(createUserDTO: CreateUserDTO) {
-  const createUser = new this.userModel(createUserDTO);
-  const user = await this.getUserByName(createUser.name);
+  const user = await this.getUserByName(createUserDTO.username);
   if (user) {
+   console.log(user)
+   console.log('user exists')
    throw new BadRequestException();
   }
-  createUser.token = await this.hashService.hashPassword(createUser.token);
+  const createUser = new this.userModel(createUserDTO);
+  
+  createUser.password = await this.hashService.hashPassword(createUser.password);
   return createUser.save();
  }
 }

@@ -9,8 +9,8 @@ export class UserController {
 
  @UseGuards(AuthGuard('jwt'))
  @Get('name')
- getUserByName(@Param() param) {
-  return this.userService.getUserByName(param.name);
+ async getUserByName(@Param() param) {
+  return await this.userService.getUserByName(param.username);
  }
  @Post()
  registerUser(@Body() createUserDTO: CreateUserDTO) {
