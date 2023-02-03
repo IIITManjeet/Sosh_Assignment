@@ -21,10 +21,14 @@ export class BlogService {
   return post;
  }
 
- async addPost(createPostDTO: CreatePostDTO): Promise<Post> {
-  const newPost = await new this.postModel(createPostDTO);
-  return newPost.save();
- }
+ async addPost(createPostDTO: CreatePostDTO, user: any): Promise<Post> {
+  const newPost = await new this.postModel({
+   title: createPostDTO.title,
+   description: createPostDTO.description,
+   createdBy: user,
+
+  });  
+  return newPost.save();}
 
  async editPost(postID, createPostDTO: CreatePostDTO): Promise<Post> {
   const editedPost = await this.postModel

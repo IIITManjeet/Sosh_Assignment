@@ -14,7 +14,7 @@ export class Blog {
  @Prop({ required: true })
  createdBy: mongoose.Types.ObjectId;
 
- @Prop({ required: true })
+ @Prop()
  createdOn:Date;
 }
 
