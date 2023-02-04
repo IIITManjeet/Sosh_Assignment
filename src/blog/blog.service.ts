@@ -8,18 +8,16 @@ import { CreatePostDTO } from './dto/create-post.dto';
 export class BlogService {
 
  constructor(@InjectModel('Post') private readonly postModel: Model<Post>) { }
-
- async getPosts(): Promise<Post[]> {
-  const posts = await this.postModel.find().exec();
-  return posts;
- }
+ async getPosts(user:any): Promise<Post[]> {
+  const posts = await this.postModel.find({createdBy: user}).exec();
+  console.log(posts);
+  return posts;}
 
  async getPost(postID): Promise<Post> {
   const post = await this.postModel
    .findById(postID)
    .exec();
-  return post;
- }
+  return post;}
 
  async addPost(createPostDTO: CreatePostDTO, user: any): Promise<Post> {
   const newPost = await new this.postModel({

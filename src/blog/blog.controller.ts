@@ -16,13 +16,13 @@ export class BlogController {
  @UseGuards(AuthGuard('jwt'))
  async getPosts(@Res() res, @Req() req) {
   console.log(req.user)
-  const posts = await this.blogService.getPosts();
+  const posts = await this.blogService.getPosts(req.user);
   return res.status(HttpStatus.OK).json(posts);
  }
 
  @Get('post/:postID')
  @UseGuards(AuthGuard('jwt'))
- async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID) {
+ async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID){
   const post = await this.blogService.getPost(postID);
   if (!post) throw new NotFoundException('Post does not exist!');
   return res.status(HttpStatus.OK).json(post);
